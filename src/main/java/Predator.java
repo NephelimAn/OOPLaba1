@@ -2,9 +2,9 @@ import java.util.List;
 
 public class Predator extends Agent {
 
-    private static final int INITIAL_ENERGY = 30;
-    private static final int ENERGY_LOSS_PER_TURN = 3;
-    private static final int REPRODUCTION_THRESHOLD = 60;
+    private static final int INITIAL_ENERGY = 300;
+    private static final int ENERGY_LOSS_PER_TURN = 2;
+    private static final int REPRODUCTION_THRESHOLD = 600;
     private static final int VISION_RADIUS = 2;
 
     public Predator(int x, int y) {

@@ -16,6 +16,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+
+import java.util.Objects;
 
 public class Main extends Application {
 
@@ -31,6 +36,9 @@ public class Main extends Application {
     private Environment environment;
 
     private GridPane gridPane;
+    private Image plantImage;
+    private Image herbivoreImage;
+    private Image predatorImage;
 
     private Label turnLabel;
     private Label plantsLabel;
@@ -57,13 +65,83 @@ public class Main extends Application {
 
         initializeEnvironment(environment);
 
+        plantImage = new Image(
+                Objects.requireNonNull(
+                        getClass().getResourceAsStream(
+                                "/images/Plant.png"
+                        )
+                )
+        );
+
+        herbivoreImage = new Image(
+                Objects.requireNonNull(
+                        getClass().getResourceAsStream(
+                                "/images/Herbivore.png"
+                        )
+                )
+        );
+
+        predatorImage = new Image(
+                Objects.requireNonNull(
+                        getClass().getResourceAsStream(
+                                "/images/Predator.png"
+                        )
+                )
+        );
+
         BorderPane root = new BorderPane();
+
+        root.setStyle(
+                "-fx-background-color: #12151C;"
+        );
 
         root.setPadding(new Insets(15));
 
+        /*
         root.setStyle(
                 "-fx-background-color: #202124;"
         );
+         */
+
+        Label titleLabel = new Label("ИСКУССТВЕННАЯ ЖИЗНЬ");
+
+        titleLabel.setStyle(
+                "-fx-text-fill: white;" +
+                        "-fx-font-size: 22px;" +
+                        "-fx-font-weight: bold;"
+        );
+
+        Label subtitleLabel = new Label(
+                "Моделирование искусственной экосистемы"
+        );
+
+        subtitleLabel.setStyle(
+                "-fx-text-fill: #8B93A7;" +
+                        "-fx-font-size: 12px;"
+        );
+
+        VBox titleBox = new VBox(
+                3,
+                titleLabel,
+                subtitleLabel
+        );
+
+        HBox header = new HBox(titleBox);
+
+        header.setAlignment(Pos.CENTER_LEFT);
+
+        header.setPadding(
+                new Insets(15, 22, 15, 22)
+        );
+
+        header.setStyle(
+                "-fx-background-color: #1A1E27;" +
+                        "-fx-border-color: #292E3A;" +
+                        "-fx-border-width: 0 0 1 0;"
+        );
+
+        root.setTop(header);
+
 
         // Поле симуляции
         gridPane = new GridPane();
@@ -91,16 +169,210 @@ public class Main extends Application {
 
         statusLabel.setWrapText(true);
 
-        VBox statistics = new VBox(10);
+        // Заголовок панели статистики
+        Label statisticsTitle = new Label("СТАТИСТИКА");
+        statisticsTitle.setStyle(
+                "-fx-text-fill: white;" +
+                        "-fx-font-size: 18px;" +
+                        "-fx-font-weight: bold;"
+        );
 
-        statistics.getChildren().addAll(
-                createSectionTitle("Статистика"),
-                turnLabel,
-                plantsLabel,
-                herbivoresLabel,
-                predatorsLabel,
+
+// ===== Текущий ход =====
+
+        Label turnTitle = new Label("ТЕКУЩИЙ ХОД");
+        turnTitle.setStyle(
+                "-fx-text-fill: #8B93A7;" +
+                        "-fx-font-size: 11px;" +
+                        "-fx-font-weight: bold;"
+        );
+
+        turnLabel.setStyle(
+                "-fx-text-fill: white;" +
+                        "-fx-font-size: 28px;" +
+                        "-fx-font-weight: bold;"
+        );
+
+        VBox turnCard = new VBox(2, turnTitle, turnLabel);
+        turnCard.setAlignment(Pos.CENTER);
+        turnCard.setPadding(new Insets(12));
+
+        turnCard.setStyle(
+                "-fx-background-color: #242933;" +
+                        "-fx-background-radius: 10;"
+        );
+
+
+// ===== Растения =====
+
+        ImageView plantIcon = new ImageView(plantImage);
+
+        plantIcon.setFitWidth(45);
+        plantIcon.setFitHeight(45);
+        plantIcon.setPreserveRatio(true);
+
+        Label plantsTitle = new Label("Растения");
+
+        plantsTitle.setStyle(
+                "-fx-text-fill: #9AA3B5;" +
+                        "-fx-font-size: 13px;"
+        );
+
+        plantsLabel.setStyle(
+                "-fx-text-fill: #6FD08C;" +
+                        "-fx-font-size: 24px;" +
+                        "-fx-font-weight: bold;"
+        );
+
+        VBox plantsInfo = new VBox(
+                2,
+                plantsTitle,
+                plantsLabel
+        );
+
+        HBox plantsContent = new HBox(
+                12,
+                plantIcon,
+                plantsInfo
+        );
+
+        plantsContent.setAlignment(Pos.CENTER_LEFT);
+
+        VBox plantsCard = new VBox(plantsContent);
+
+        plantsCard.setPadding(new Insets(12));
+
+        plantsCard.setStyle(
+                "-fx-background-color: #242933;" +
+                        "-fx-background-radius: 10;"
+        );
+
+
+// ===== Травоядные =====
+
+        ImageView herbivoreIcon = new ImageView(herbivoreImage);
+
+        herbivoreIcon.setFitWidth(45);
+        herbivoreIcon.setFitHeight(45);
+        herbivoreIcon.setPreserveRatio(true);
+
+        Label herbivoresTitle = new Label("Травоядные");
+
+        herbivoresTitle.setStyle(
+                "-fx-text-fill: #9AA3B5;" +
+                        "-fx-font-size: 13px;"
+        );
+
+        herbivoresLabel.setStyle(
+                "-fx-text-fill: #F2C94C;" +
+                        "-fx-font-size: 24px;" +
+                        "-fx-font-weight: bold;"
+        );
+
+        VBox herbivoresInfo = new VBox(
+                2,
+                herbivoresTitle,
+                herbivoresLabel
+        );
+
+        HBox herbivoresContent = new HBox(
+                12,
+                herbivoreIcon,
+                herbivoresInfo
+        );
+
+        herbivoresContent.setAlignment(Pos.CENTER_LEFT);
+
+        VBox herbivoresCard = new VBox(herbivoresContent);
+
+        herbivoresCard.setPadding(new Insets(12));
+
+        herbivoresCard.setStyle(
+                "-fx-background-color: #242933;" +
+                        "-fx-background-radius: 10;"
+        );
+
+
+// ===== Хищники =====
+
+        ImageView predatorIcon = new ImageView(predatorImage);
+
+        predatorIcon.setFitWidth(45);
+        predatorIcon.setFitHeight(45);
+        predatorIcon.setPreserveRatio(true);
+
+        Label predatorsTitle = new Label("Хищники");
+
+        predatorsTitle.setStyle(
+                "-fx-text-fill: #9AA3B5;" +
+                        "-fx-font-size: 13px;"
+        );
+
+        predatorsLabel.setStyle(
+                "-fx-text-fill: #EB6A6A;" +
+                        "-fx-font-size: 24px;" +
+                        "-fx-font-weight: bold;"
+        );
+
+        VBox predatorsInfo = new VBox(
+                2,
+                predatorsTitle,
+                predatorsLabel
+        );
+
+        HBox predatorsContent = new HBox(
+                12,
+                predatorIcon,
+                predatorsInfo
+        );
+
+        predatorsContent.setAlignment(Pos.CENTER_LEFT);
+
+        VBox predatorsCard = new VBox(predatorsContent);
+
+        predatorsCard.setPadding(new Insets(12));
+
+        predatorsCard.setStyle(
+                "-fx-background-color: #242933;" +
+                        "-fx-background-radius: 10;"
+        );
+
+
+// ===== Статус =====
+
+        statusLabel.setStyle(
+                "-fx-text-fill: #8B93A7;" +
+                        "-fx-font-size: 12px;"
+        );
+
+
+// ===== Общая панель =====
+
+        VBox statistics = new VBox(
+                12,
+                statisticsTitle,
+                turnCard,
+                plantsCard,
+                herbivoresCard,
+                predatorsCard,
                 statusLabel
         );
+
+        statistics.setPrefWidth(280);
+
+        statistics.setPadding(
+                new Insets(18)
+        );
+
+        statistics.setStyle(
+                "-fx-background-color: #1A1E27;" +
+                        "-fx-background-radius: 12;" +
+                        "-fx-border-color: #292E3A;" +
+                        "-fx-border-radius: 12;" +
+                        "-fx-border-width: 1;"
+        );
+
+
 
         statistics.setPadding(
                 new Insets(15)
@@ -248,7 +520,73 @@ public class Main extends Application {
         center.setAlignment(Pos.CENTER);
 
 
-        root.setCenter(center);
+        // Контейнер игрового поля
+        VBox gameCard = new VBox(10);
+
+        gameCard.setPadding(
+                new Insets(15)
+        );
+
+        gameCard.setAlignment(
+                Pos.CENTER
+        );
+
+        gameCard.setStyle(
+                "-fx-background-color: #1A1E27;" +
+                        "-fx-background-radius: 12;" +
+                        "-fx-border-color: #292E3A;" +
+                        "-fx-border-radius: 12;" +
+                        "-fx-border-width: 1;"
+        );
+
+
+// Заголовок над полем
+        Label fieldTitle = new Label(
+                "Игровое поле"
+        );
+
+        fieldTitle.setStyle(
+                "-fx-text-fill: white;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-font-weight: bold;"
+        );
+
+
+// Само поле
+        gridPane.setStyle(
+                "-fx-background-color: #252A34;" +
+                        "-fx-border-color: #343A46;" +
+                        "-fx-border-width: 1;"
+        );
+
+
+        gameCard.getChildren().addAll(
+                fieldTitle,
+                gridPane
+        );
+
+
+// Отступ карточки от краёв окна
+        BorderPane.setMargin(
+                gameCard,
+                new Insets(18)
+        );
+
+
+        VBox centerContent = new VBox(15);
+
+        centerContent.setAlignment(Pos.CENTER);
+
+        centerContent.setPadding(
+                new Insets(18)
+        );
+
+        centerContent.getChildren().addAll(
+                gameCard,
+                controls
+        );
+
+        root.setCenter(centerContent);
         root.setRight(statistics);
 
         BorderPane.setMargin(
@@ -286,19 +624,38 @@ public class Main extends Application {
 
             for (int x = 0; x < WIDTH; x++) {
 
-                Rectangle cell =
+                Rectangle background =
                         new Rectangle(
                                 CELL_SIZE,
                                 CELL_SIZE
                         );
 
-                cell.setFill(
-                        Color.web("#303134")
+                background.setFill(
+                        Color.web("#242933")
                 );
 
-                cell.setStroke(
-                        Color.web("#55565a")
+                background.setStroke(
+                        Color.web("#343A46")
                 );
+
+                ImageView imageView =
+                        new ImageView();
+
+                imageView.setFitWidth(
+                        CELL_SIZE - 4
+                );
+
+                imageView.setFitHeight(
+                        CELL_SIZE - 4
+                );
+
+                imageView.setPreserveRatio(true);
+
+                StackPane cell =
+                        new StackPane(
+                                background,
+                                imageView
+                        );
 
                 gridPane.add(
                         cell,
@@ -315,34 +672,47 @@ public class Main extends Application {
 
             for (int x = 0; x < WIDTH; x++) {
 
-                Rectangle cell =
+                StackPane cell =
                         getCell(x, y);
+
+                ImageView imageView =
+                        (ImageView) cell
+                                .getChildren()
+                                .get(1);
 
                 Agent agent =
                         environment.getAgent(x, y);
 
+                // Пустая клетка
                 if (agent == null) {
 
-                    cell.setFill(
-                            Color.web("#303134")
+                    imageView.setImage(null);
+
+                }
+
+                // Растение
+                else if (agent instanceof Plant) {
+
+                    imageView.setImage(
+                            plantImage
                     );
 
-                } else if (agent instanceof Plant) {
+                }
 
-                    cell.setFill(
-                            Color.web("#4CAF50")
+                // Травоядное
+                else if (agent instanceof Herbivore) {
+
+                    imageView.setImage(
+                            herbivoreImage
                     );
 
-                } else if (agent instanceof Herbivore) {
+                }
 
-                    cell.setFill(
-                            Color.web("#FFC107")
-                    );
+                // Хищник
+                else if (agent instanceof Predator) {
 
-                } else if (agent instanceof Predator) {
-
-                    cell.setFill(
-                            Color.web("#F44336")
+                    imageView.setImage(
+                            predatorImage
                     );
                 }
             }
@@ -352,12 +722,12 @@ public class Main extends Application {
     }
 
 
-    private Rectangle getCell(
+    private StackPane getCell(
             int x,
             int y
     ) {
 
-        return (Rectangle) gridPane
+        return (StackPane) gridPane
                 .getChildren()
                 .get(y * WIDTH + x);
     }
@@ -591,17 +961,17 @@ public class Main extends Application {
         );
 
         plantsLabel.setText(
-                "🌿 Растения: " +
+                ": " +
                         plants
         );
 
         herbivoresLabel.setText(
-                "🐑 Травоядные: " +
+                ": " +
                         herbivores
         );
 
         predatorsLabel.setText(
-                "🐺 Хищники: " +
+                ": " +
                         predators
         );
     }
